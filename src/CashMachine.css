@@ -1,29 +1,6 @@
-.App {
+.CashMachine {
   text-align: center;
 }
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-table {
-  width: 50%;
-  margin-left:auto; 
-  margin-right:auto;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-th {
-  padding: 15px;
-}
-
-tr:nth-child(odd) {background-color: #f2f2f2}
 
 #error {
   color: red;
@@ -36,6 +13,7 @@ tr:nth-child(odd) {background-color: #f2f2f2}
   border-style: solid;
   border-radius: 5px;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .button {
@@ -50,6 +28,7 @@ button {
   margin: 10px;
   margin-left:auto; 
   margin-right:auto;
+  border-radius: 5px;
 }
 
 .input-btn-group > input, .input-btn-group > button {
@@ -57,10 +36,25 @@ button {
 }
 
 .input-btn-group > input {
-  padding: 0;
+  padding: 0 10px;
+  border: none;
+  background-color: lightgray;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-btn-group > button {
+  padding: 0 24px;
+  margin: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .input-btn-group {
   height: 2em;
-  padding-bottom: 15px;
+  padding: 10px 0;
 }

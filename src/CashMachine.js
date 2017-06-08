@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+import './CashMachine.css';
 import List from './List';
 
 
 const values = [100, 50, 20, 10, 5, 1];
 
-class App extends Component {
+class CashMachine extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,8 +15,6 @@ class App extends Component {
       10: 10,
       5: 10,
       1: 10,
-      input: '',
-      denominationInput: '',
       errorType: '',
       denominations: [],
     }
@@ -25,12 +23,12 @@ class App extends Component {
     this.withdraw = this.withdraw.bind(this);
     this.setError = this.setError.bind(this);
     this.listDenominations = this.listDenominations.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleDenominationInputChange = this.handleDenominationInputChange.bind(this);
     this.quit = this.quit.bind(this);
   }
 
   restock() {
+    this.refs.denominationInput.value = '';
+    this.refs.withdrawInput.value = '';
     this.setState({
       100: 10,
       50: 10,
@@ -42,15 +40,10 @@ class App extends Component {
     });
   }
 
-  handleInputChange(e) {
-    this.setState({withdrawInput: e.target.value});
-  }
-  handleDenominationInputChange(e) {
-    this.setState({denominationInput: e.target.value});
-  }
   listDenominations() {
     const testRegex = /^([\s]{0,1}\$(100|[251]0|[15])[\s]{0,1})+$/;
-    if (!testRegex.test(this.state.denominationInput)) {
+    if (!testRegex.test(this.refs.denominationInput.value)) {
+      this.refs.denominationInput.value = '';
       return this.setState({
         errorType: 'invalid',
       });
@@ -60,19 +53,20 @@ class App extends Component {
       errorType: '',
     });
     const matchRegex = /\$[\s]{0,1}(100|[251]0|[15])/g;
-    let match = matchRegex.exec(this.state.denominationInput);
+    let match = matchRegex.exec(this.refs.denominationInput.value);
     const denominationValues = [];
     while(match != null) {
       if (values.includes(Number.parseInt(match[1], 10))) {
         denominationValues.push(match[1]);
-        match = matchRegex.exec(this.state.denominationInput);
+        match = matchRegex.exec(this.refs.denominationInput.value);
       } else {
+        this.refs.denominationInput.value = '';
         return this.setState({
           errorType: 'invalid',
         });
       }
     }
-
+    this.refs.denominationInput.value = '';
     this.setState({denominations: denominationValues});
   }
   setError() {
@@ -86,13 +80,15 @@ class App extends Component {
     }
   }
   withdraw() {
-    if (this.state.withdrawInput == null || !this.state.withdrawInput.startsWith('$')){
+    if (this.refs.withdrawInput.value == null || !this.refs.withdrawInput.value.startsWith('$')){
+      this.refs.withdrawInput.value = "";
       return this.setState({
         errorType: 'invalid',
       });
     }
 
-    let amount = this.state.withdrawInput.substring(1);
+    let amount = this.refs.withdrawInput.value.substring(1);
+    this.refs.withdrawInput.value = "";
     if (isNaN(amount) || amount <= 0) {
       return this.setState({
         errorType: 'invalid',
@@ -124,6 +120,8 @@ class App extends Component {
     }
   }
   quit() {
+    this.refs.denominationInput.value = '';
+    this.refs.withdrawInput.value = '';
     this.setState({
       denominations: [],
       errorType: '',
@@ -137,17 +135,17 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="CashMachine">
         <h1>Cash Machine</h1>
         <List {...this.state} />
         {this.setError()}
         <div className="input-btn-group">
-          <input id="withdraw-input" type="text" onChange={this.handleInputChange} placeholder="Enter dollar amount" />
+          <input ref="withdrawInput" id="withdraw-input" type="text" placeholder="Enter dollar amount" />
           <button onClick={this.withdraw}>Withdraw</button>
         </div>
         <div className="input-btn-group">
-          <input id="denomination-input" type="text" onChange={this.handleDenominationInputChange} placeholder="$10 $20 etc.."/>
-          <button onClick={this.listDenominations}>Denominations</button>
+          <input ref="denominationInput" id="denomination-input" type="text" placeholder="Enter Denominations"/>
+          <button onClick={this.listDenominations}>Inquiry</button>
         </div>
         <button className="button" onClick={this.restock}>Restock</button>
         <button className="button" onClick={this.quit}>Quit</button>
@@ -156,4 +154,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default CashMachine;
