@@ -1,0 +1,66 @@
+.App {
+  text-align: center;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+table {
+  width: 50%;
+  margin-left:auto; 
+  margin-right:auto;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th {
+  padding: 15px;
+}
+
+tr:nth-child(odd) {background-color: #f2f2f2}
+
+#error {
+  color: red;
+  background-color: #ffaaaa;
+  width: 20%;
+  margin-left:auto; 
+  margin-right:auto;
+  padding: 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.button {
+  display: block;
+}
+
+button {
+  background-color: #0000ee;
+  color: lightgray;
+  border: none;
+  padding: 10px 24px;
+  margin: 10px;
+  margin-left:auto; 
+  margin-right:auto;
+}
+
+.input-btn-group > input, .input-btn-group > button {
+  height: inherit;
+}
+
+.input-btn-group > input {
+  padding: 0;
+}
+
+.input-btn-group {
+  height: 2em;
+  padding-bottom: 15px;
+}
