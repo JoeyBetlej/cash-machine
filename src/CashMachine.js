@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './CashMachine.css';
 import List from './List';
 
-
 const values = [100, 50, 20, 10, 5, 1];
 
 class CashMachine extends Component {
@@ -19,25 +18,22 @@ class CashMachine extends Component {
       denominations: [],
     }
 
-    this.restock = this.restock.bind(this);
-    this.withdraw = this.withdraw.bind(this);
-    this.setError = this.setError.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.listDenominations = this.listDenominations.bind(this);
     this.quit = this.quit.bind(this);
+    this.restock = this.restock.bind(this);
+    this.setError = this.setError.bind(this);
+    this.withdraw = this.withdraw.bind(this);
   }
 
-  restock() {
-    this.refs.denominationInput.value = '';
-    this.refs.withdrawInput.value = '';
-    this.setState({
-      100: 10,
-      50: 10,
-      20: 10,
-      10: 10,
-      5: 10,
-      1: 10,
-      errorType: '',
-    });
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      if (event.target.id === 'withdraw-input') {
+        this.withdraw();
+      } else if (event.target.id === 'denomination-input') {
+        this.listDenominations();
+      }
+    }
   }
 
   listDenominations() {
@@ -69,6 +65,36 @@ class CashMachine extends Component {
     this.refs.denominationInput.value = '';
     this.setState({denominations: denominationValues});
   }
+
+  quit() {
+    this.refs.denominationInput.value = '';
+    this.refs.withdrawInput.value = '';
+    this.setState({
+      denominations: [],
+      errorType: '',
+      100: 10,
+      50: 10,
+      20: 10,
+      10: 10,
+      5: 10,
+      1: 10,
+    })
+  }
+
+  restock() {
+    this.refs.denominationInput.value = '';
+    this.refs.withdrawInput.value = '';
+    this.setState({
+      100: 10,
+      50: 10,
+      20: 10,
+      10: 10,
+      5: 10,
+      1: 10,
+      errorType: '',
+    });
+  }
+
   setError() {
     switch (this.state.errorType) {
       case 'invalid':
@@ -79,6 +105,7 @@ class CashMachine extends Component {
         return;
     }
   }
+
   withdraw() {
     if (this.refs.withdrawInput.value == null || !this.refs.withdrawInput.value.startsWith('$')){
       this.refs.withdrawInput.value = "";
@@ -119,20 +146,7 @@ class CashMachine extends Component {
       this.setState(newState)
     }
   }
-  quit() {
-    this.refs.denominationInput.value = '';
-    this.refs.withdrawInput.value = '';
-    this.setState({
-      denominations: [],
-      errorType: '',
-      100: 10,
-      50: 10,
-      20: 10,
-      10: 10,
-      5: 10,
-      1: 10,
-    })
-  }
+
   render() {
     return (
       <div className="CashMachine">
@@ -140,11 +154,11 @@ class CashMachine extends Component {
         <List {...this.state} />
         {this.setError()}
         <div className="input-btn-group">
-          <input ref="withdrawInput" id="withdraw-input" type="text" placeholder="Enter dollar amount" />
+          <input onKeyDown={this.handleKeyPress} ref="withdrawInput" id="withdraw-input" type="text" placeholder="Enter dollar amount" />
           <button onClick={this.withdraw}>Withdraw</button>
         </div>
         <div className="input-btn-group">
-          <input ref="denominationInput" id="denomination-input" type="text" placeholder="Enter Denominations"/>
+          <input onKeyDown={this.handleKeyPress} ref="denominationInput" id="denomination-input" type="text" placeholder="Enter Denominations"/>
           <button onClick={this.listDenominations}>Inquiry</button>
         </div>
         <button className="button" onClick={this.restock}>Restock</button>
