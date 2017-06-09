@@ -162,8 +162,8 @@ class CashMachine extends Component {
           <input onKeyDown={this.handleKeyPress} ref="denominationInput" id="denomination-input" type="text" placeholder="Enter Denominations"/>
           <button onClick={this.listDenominations}>Inquiry</button>
         </div>
-        <button className="button" onClick={this.restock}>Restock</button>
-        <button className="button" onClick={this.quit}>Quit</button>
+        <button onClick={this.restock}>Restock</button>
+        <button onClick={this.quit}>Quit</button>
       </div>
     );
   }
