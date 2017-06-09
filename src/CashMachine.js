@@ -92,6 +92,7 @@ class CashMachine extends Component {
       5: 10,
       1: 10,
       errorType: '',
+      denominations: values,
     });
   }
 
